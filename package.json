@@ -1,0 +1,31 @@
+{
+  "name": "burnbase",
+  "version": "0.1.0-alpha.0",
+  "description": "",
+  "src": "src/lib/index.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    "./auth": "./src/lib/auth/index.js",
+    "./firestore": "./src/lib/firestore/index.js",
+    "./storage": "./src/lib/storage/index.js"
+  },
+  "declarationTypes": "types/index.d.ts",
+  "scripts": {
+    "dev": "tsc -w",
+    "build": "tsc",
+    "publish:alpha": "yarn build && npm publish --tag alpha",
+    "publish:beta": "yarn build && npm publish --tag beta",
+    "publish:latest": "yarn build && npm publish"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "firebase": "^10.7.1",
+    "unikey": "^1.0.0"
+  }
+}
