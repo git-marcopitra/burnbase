@@ -1,17 +1,19 @@
 {
   "name": "burnbase",
-  "version": "0.1.2-alpha.0",
+  "version": "0.1.5-alpha.1",
   "description": "",
-  "src": "src/lib/index.ts",
-  "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
+    "./app": "./dist/app/index.js",
     "./auth": "./dist/auth/index.js",
     "./firestore": "./dist/firestore/index.js",
     "./storage": "./dist/storage/index.js"
   },
   "typesVersions": {
     "*": {
+      "app": [
+        "./dist/app/index.d.ts"
+      ],
       "auth": [
         "./dist/auth/index.d.ts"
       ],
@@ -28,7 +30,7 @@
   ],
   "scripts": {
     "dev": "tsc -w",
-    "build": "tsc",
+    "build": "rimraf dist && tsc",
     "publish:alpha": "yarn build && npm publish --tag alpha",
     "publish:beta": "yarn build && npm publish --tag beta",
     "publish:latest": "yarn build && npm publish"
@@ -37,6 +39,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "rimraf": "^5.0.5",
     "typescript": "^5.3.3"
   },
   "dependencies": {
