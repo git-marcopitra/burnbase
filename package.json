@@ -1,16 +1,31 @@
 {
   "name": "burnbase",
-  "version": "0.1.1-alpha.0",
+  "version": "0.1.2-alpha.0",
   "description": "",
   "src": "src/lib/index.ts",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
-    "./auth": "./src/lib/auth/index.js",
-    "./firestore": "./src/lib/firestore/index.js",
-    "./storage": "./src/lib/storage/index.js"
+    "./auth": "./dist/auth/index.js",
+    "./firestore": "./dist/firestore/index.js",
+    "./storage": "./dist/storage/index.js"
   },
-  "declarationTypes": "types/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "auth": [
+        "./dist/auth/index.d.ts"
+      ],
+      "firestore": [
+        "./dist/firestore/index.d.ts"
+      ],
+      "storage": [
+        "./dist/firestore/index.d.ts"
+      ]
+    }
+  },
+  "files": [
+    "/dist"
+  ],
   "scripts": {
     "dev": "tsc -w",
     "build": "tsc",

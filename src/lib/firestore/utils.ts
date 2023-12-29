@@ -31,7 +31,7 @@ import {
   TGetPathStorage,
 } from "./firestore.protocol";
 
-export const app = getApp();
+export const app = getApp("burnbase");
 
 const db = getFirestore(app);
 
