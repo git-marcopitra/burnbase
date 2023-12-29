@@ -1,6 +1,6 @@
 {
   "name": "burnbase",
-  "version": "0.1.0-alpha.0",
+  "version": "0.1.1-alpha.0",
   "description": "",
   "src": "src/lib/index.ts",
   "main": "dist/index.js",
