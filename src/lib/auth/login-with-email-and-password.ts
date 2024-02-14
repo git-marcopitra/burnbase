@@ -4,7 +4,6 @@ import { auth } from "../firestore/utils";
 import { getAllData } from "../firestore";
 import { TCondition } from "../firestore/firestore.protocol";
 
-
 const loginWithEmailAndPassword = async (
   email: string,
   password: string,

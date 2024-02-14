@@ -1,6 +1,6 @@
 {
   "name": "burnbase",
-  "version": "0.1.5-alpha.1",
+  "version": "0.1.6-alpha.0",
   "description": "",
   "types": "./dist/index.d.ts",
   "exports": {
@@ -21,7 +21,7 @@
         "./dist/firestore/index.d.ts"
       ],
       "storage": [
-        "./dist/firestore/index.d.ts"
+        "./dist/storage/index.d.ts"
       ]
     }
   },
