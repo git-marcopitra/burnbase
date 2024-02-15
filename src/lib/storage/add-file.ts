@@ -11,15 +11,19 @@ import {
 const addFile = (
   file: File,
   path: string,
-  options: { metadata?: UploadMetadata; prefix?: string; suffix?: string }
-) =>
+  options?: { metadata?: UploadMetadata; prefix?: string; suffix?: string }
+): Promise<string> =>
   new Promise((resolve, reject) => {
     const storageRef = ref(
       bucket,
-      `${path}/${options?.prefix}${unikey()}${options?.suffix}`
+      `${path}/${options?.prefix ?? ""}${unikey()}${options?.suffix ?? ""}`
     );
 
-    const uploadFile = uploadBytesResumable(storageRef, file, options.metadata);
+    const uploadFile = uploadBytesResumable(
+      storageRef,
+      file,
+      options?.metadata
+    );
 
     uploadFile.on(
       "state_changed",
