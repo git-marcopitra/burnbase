@@ -26,7 +26,8 @@
     }
   },
   "files": [
-    "/dist"
+    "/dist",
+    "README.md"
   ],
   "scripts": {
     "dev": "tsc -w",
