@@ -24,8 +24,8 @@ export interface IOrdinateBy {
   orderDirection?: OrderByDirection;
 }
 export interface IPagination {
-  page?: number;
   limit: number;
+  page?: number;
   target?: "next" | "previous";
   targetDocument?: QueryDocumentSnapshot<DocumentData>;
   firstItem?: ReadonlyArray<QueryDocumentSnapshot<DocumentData>>;
