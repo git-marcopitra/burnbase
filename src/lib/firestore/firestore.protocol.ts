@@ -46,7 +46,7 @@ export type TMapQueryParams = (
   | ReturnType<typeof startAfter>
 >;
 
-export type TGetCollection = (
+export type TGetCollectionRef = (
   collectionName: string
 ) => CollectionReference<DocumentData>;
 
@@ -56,7 +56,7 @@ export type TGetCollectionSize = (
   queryParams?: IQueryParams
 ) => Unsubscribe;
 
-export type TGetDocumentReference = (
+export type TGetDocumentRef = (
   collectionName: string,
   docUid: string
 ) => DocumentReference<DocumentData>;
@@ -101,5 +101,3 @@ export type TAddDocument = <T = unknown>(
 ) => Promise<DocumentReference<unknown>>;
 
 export type TDeleteObject = (urlPhoto: string) => Promise<void>;
-
-export type TGetPathStorage = (url: string) => string;

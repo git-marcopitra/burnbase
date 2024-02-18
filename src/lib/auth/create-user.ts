@@ -4,8 +4,11 @@ import {
   getAuth,
   signOut,
 } from "firebase/auth";
-import { app, auth, setDocument } from "../firestore/utils";
+import { setDocument } from "../firestore/firestore.utils";
 import { initializeApp } from "firebase/app";
+
+import { auth } from "./auth.utils";
+import { app } from "../app/app.utils";
 
 const createUser = async <T extends unknown>(
   email: string,
@@ -34,8 +37,8 @@ const createUser = async <T extends unknown>(
 
   const temporaryAuth = getAuth(initializeApp(app.options, "temporary"));
 
-  return createUserWithEmailAndPassword(temporaryAuth, email, password).then(
-    async (user: UserCredential) => {
+  return createUserWithEmailAndPassword(temporaryAuth, email, password)
+    .then(async (user: UserCredential) => {
       if (!options.userCollectionName) return user;
 
       await setDocument(options.userCollectionName, user.user.uid, {
@@ -44,8 +47,8 @@ const createUser = async <T extends unknown>(
       });
 
       return user;
-    }
-  ).finally(() => signOut(temporaryAuth));
+    })
+    .finally(() => signOut(temporaryAuth));
 };
 
 export default createUser;

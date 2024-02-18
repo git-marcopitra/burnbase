@@ -1,5 +1,5 @@
 import { onSnapshot, query } from "firebase/firestore";
-import { getCollection, mapQueryParams } from "./utils";
+import { getCollectionRef, mapQueryParams } from "./firestore.utils";
 import { IQueryParams } from "./firestore.protocol";
 
 const getAllData =
@@ -8,9 +8,9 @@ const getAllData =
     new Promise((resolve, rejected) =>
       onSnapshot(
         !queryParams
-          ? getCollection(collectionName)
+          ? getCollectionRef(collectionName)
           : query(
-              getCollection(collectionName),
+              getCollectionRef(collectionName),
               ...mapQueryParams(queryParams)
             ),
         (snapshot) => {

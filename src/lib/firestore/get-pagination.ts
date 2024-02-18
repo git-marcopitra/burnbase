@@ -1,5 +1,5 @@
 import { onSnapshot, query } from "firebase/firestore";
-import { getCollection, mapQueryParams } from "./utils";
+import { getCollectionRef, mapQueryParams } from "./firestore.utils";
 import { TPageGetter } from "./firestore.protocol";
 
 const getPagination: TPageGetter =
@@ -7,9 +7,9 @@ const getPagination: TPageGetter =
     new Promise((resolve, rejected) => {
       onSnapshot(
         !queryParams
-          ? getCollection(collectionName)
+          ? getCollectionRef(collectionName)
           : query(
-              getCollection(collectionName),
+              getCollectionRef(collectionName),
               ...mapQueryParams(queryParams)
             ),
         (snapshot) =>

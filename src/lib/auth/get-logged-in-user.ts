@@ -1,5 +1,5 @@
 import { User, onAuthStateChanged } from "firebase/auth";
-import { auth } from "../firestore/utils";
+import { auth } from "./auth.utils";
 
 const getLoggedInUser = (): Promise<User | null> =>
   new Promise((resolve, reject) => {

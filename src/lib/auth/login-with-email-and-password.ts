@@ -1,6 +1,6 @@
 import { signInWithEmailAndPassword } from "firebase/auth";
 
-import { auth } from "../firestore/utils";
+import { auth } from "./auth.utils";
 import { getAllData } from "../firestore";
 import { TCondition } from "../firestore/firestore.protocol";
 

@@ -99,7 +99,7 @@ export const getCurrentUser = async () => {
 
 This function returns the `userCredentialInfo` as Firebase **UserCredential**, expecting 2-3 params.
 
-##### Basic Usage
+##### Basic Usage (`loginWithEmailAndPassword`)
 
 Passing only the email and password, you can login with an existing account on Firebase auth.
 
@@ -117,7 +117,7 @@ export const login = async (email: string, password: string) => {
 };
 ```
 
-##### Advanced Usage
+##### Advanced Usage (`loginWithEmailAndPassword`)
 
 Passing options after passing the email and password, you can login with an existing account on Firebase auth, and verify if this account exists on `firestoreCollectionName` in options, and if you want you can add many more conditions to the `firestoreCondition` list.
 
@@ -185,3 +185,51 @@ const logoff = async () => {
   await logout();
 };
 ```
+
+### Firestore
+
+For Firebase Firestore, we have the following functions on `burnbase/firestore`:
+
+- `getAllData`;
+- `getPagination`;
+- `getCollection`;
+- `getCollectionRef`;
+- `getDocument`;
+- `setDocument`;
+- `updateDocument`;
+- `addDocument`;
+- `deleteFile`;
+- `getCollectionSize`;
+- `mapQueryParams`.
+
+#### `getAllData`
+
+This function expect a collection name and then a query if needed, it will return all the data on the collection.
+
+##### Basic Usage (`getAllData`)
+
+`src/get-all-users.ts`
+
+```ts
+import { getAllData } from "burnbase/firestore";
+
+const getUsers = async () => {
+  await getAllData("users")();
+};
+```
+
+##### Advanced Usage (`getAllData`)
+
+`src/get-all-users.ts`
+
+```ts
+import { getAllData } from "burnbase/firestore";
+
+const getAdminsSorted = async () => {
+  await getAllData("users")({
+    conditions: [["role", "==", "admin"]],
+    ordinateBy: [{ label: "name", orderDirection: "asc" }],
+  });
+};
+```
+

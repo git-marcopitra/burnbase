@@ -1,6 +1,6 @@
 import { onSnapshot, query } from "firebase/firestore";
 
-import { getCollection, mapQueryParams } from "./utils";
+import { getCollectionRef, mapQueryParams } from "./firestore.utils";
 
 import { IQueryParams, TGenericCollection } from "./firestore.protocol";
 
@@ -8,16 +8,16 @@ const getGenericCollection = <T>(
   collectionName: string,
   queryParams?: IQueryParams
 ): TGenericCollection<T> => {
-  const genericCollection = getCollection(collectionName);
+  const genericCollectionRef = getCollectionRef(collectionName);
 
   return new Promise((resolve, rejected) =>
     onSnapshot(
       queryParams
-        ? query(genericCollection, ...mapQueryParams(queryParams))
-        : genericCollection,
+        ? query(genericCollectionRef, ...mapQueryParams(queryParams))
+        : genericCollectionRef,
       (snapshot) => {
         const data: Array<T> = [];
-        //
+        
         snapshot.forEach((doc) =>
           data.push(
             Object.defineProperty(doc.data(), "uid", { value: doc.id }) as T

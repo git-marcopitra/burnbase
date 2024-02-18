@@ -1,4 +1,3 @@
-import { getAuth } from "firebase/auth";
 import {
   addDoc,
   collection,
@@ -17,41 +16,34 @@ import {
 } from "firebase/firestore";
 import { deleteObject, getStorage, ref } from "firebase/storage";
 
-import { getApp } from "firebase/app";
 import {
-  TGetCollection,
+  TGetCollectionRef,
   TGetDocument,
-  TGetDocumentReference,
+  TGetDocumentRef,
   TSetDocument,
   TUpdateDocument,
   TAddDocument,
   TDeleteObject,
   TGetCollectionSize,
   TMapQueryParams,
-  TGetPathStorage,
 } from "./firestore.protocol";
-
-export const app = getApp("burnbase");
+import { app } from "../app/app.utils";
 
 const db = getFirestore(app);
 
-export const auth = getAuth(app);
-
-export const bucket = getStorage(app);
-
-export const getCollection: TGetCollection = (collectionName) =>
+export const getCollectionRef: TGetCollectionRef = (collectionName) =>
   collection(db, collectionName);
 
-export const getDocument: TGetDocument = (collectionName, docUid) =>
-  getDoc(doc(getCollection(collectionName), docUid));
-
-export const getDocumentReference: TGetDocumentReference = (
+export const getDocumentRef: TGetDocumentRef = (
   collectionName,
   docUid
-) => doc(getCollection(collectionName), docUid);
+) => doc(getCollectionRef(collectionName), docUid);
+
+export const getDocument: TGetDocument = (collectionName, docUid) =>
+  getDoc(getDocumentRef(collectionName, docUid));
 
 export const setDocument: TSetDocument = (collectionName, docUid, docData) =>
-  setDoc(getDocumentReference(collectionName, docUid), docData);
+  setDoc(getDocumentRef(collectionName, docUid), docData);
 
 export const updateDocument: TUpdateDocument = (
   collectionName,
@@ -59,11 +51,12 @@ export const updateDocument: TUpdateDocument = (
   docData
 ) =>
   updateDoc(
-    getDocumentReference(collectionName, docUid),
+    getDocumentRef(collectionName, docUid),
     docData as Partial<unknown>
   );
+
 export const addDocument: TAddDocument = (collectionName, docData) =>
-  addDoc(getCollection(collectionName), docData as Partial<unknown>);
+  addDoc(getCollectionRef(collectionName), docData as Partial<unknown>);
 
 export const deleteFile: TDeleteObject = (urlPhoto) =>
   deleteObject(ref(getStorage(), urlPhoto));
@@ -75,8 +68,8 @@ export const getCollectionSize: TGetCollectionSize = (
 ) =>
   onSnapshot(
     queryParams
-      ? query(getCollection(collectionName), ...mapQueryParams(queryParams))
-      : getCollection(collectionName),
+      ? query(getCollectionRef(collectionName), ...mapQueryParams(queryParams))
+      : getCollectionRef(collectionName),
     (snapshot) => callback(snapshot.size),
     (error) => error.name
   );
@@ -107,12 +100,4 @@ export const mapQueryParams: TMapQueryParams = ({
   }
 
   return query;
-};
-
-export const getPathStorageFromUrl: TGetPathStorage = (url) => {
-  const baseUrl = `https://firebasestorage.googleapis.com/v0/b/${process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET}/o/`;
-
-  const imagePath: string = url.replace(baseUrl, "").replace(/%2F/g, "/");
-
-  return imagePath.slice(0, imagePath.indexOf("?"));
 };

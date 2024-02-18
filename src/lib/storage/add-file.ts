@@ -1,12 +1,12 @@
 import unikey from "unikey";
 
-import { bucket } from "../firestore/utils";
 import {
   UploadMetadata,
   getDownloadURL,
   ref,
   uploadBytesResumable,
 } from "firebase/storage";
+import { bucket } from "./storage.utils";
 
 const addFile = (
   file: File,
