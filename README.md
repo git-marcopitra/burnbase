@@ -202,6 +202,59 @@ For Firebase Firestore, we have the following functions on `burnbase/firestore`:
 - `getCollectionSize`;
 - `mapQueryParams`.
 
+#### Understanding `queryParams`
+
+`queryParams` is an object parameter composed by:
+
+- `pagination`;
+- `conditions`;
+- `ordinateBy`.
+
+##### `pagination`
+
+Pagination is an optional object and `undefined` by default, and there is some utils attributes:
+
+| Attribute          |                                                                                                 Structure |
+| :----------------- | --------------------------------------------------------------------------------------------------------: |
+| `limit`            |                                                           `number` - the limit of the data that you need. |
+| `page`             |                                            `number` (optional) - the exact page that you are looking for. |
+| `target`           |              `"next"` or `"previous"` (optional) - asks for next or previous page, based on current page. |
+| `targetDocument`\* |    `QueryDocumentSnapshot<DocumentData>` (optional) - the target document that you must have in the list. |
+| `firstItem`\*      | `ReadonlyArray<QueryDocumentSnapshot<DocumentData>>` (option) - a list of all pages first items elements. |
+
+**_Note:_** \* _means that the attribute is mostly for internal use, but is ok if you find a nice tricky to use it by your own, or maybe improve the code xD._
+
+##### `conditions`
+
+Conditions is an optional list and `undefined` by default, and it's structure is basically based on an array with 3 position:
+
+`[<field-name>, <operator>, <value>]`
+
+Where:
+
+- `<field-name>`: is a `string` that represents the attribute on document;
+- `<operator>`: is a `WhereFilterOp` that represents the operation properly;
+- `<value>`: is an `unknown` value, that represents the matching value that you want.
+
+Ex.1: Checking if the role is equal to `admin`.
+`['role', '==', 'admin']`
+
+Ex.2: Checking if the position represents the podium, that can be 1, 2 oe 3.
+`['position', 'in', [1, 2, 3]]`
+
+And then after you understand how conditions works, you can combine them into a list of conditions.
+
+##### `ordinateBy`
+
+This is the sorting field, that expect a list of sorting objects, that is represented by a `label` and a `orderDirection`.
+
+Ex.: `ordinate: [{ label: "date" }, { label: "position", orderDirection: "desc" }]`
+
+Where:
+
+- `label`: is a required `string` that presents the field to sort;
+- `orderDirection`: is an optional field that by default it's `'asc'`, and you can change to `'desc'`.
+
 #### `getAllData`
 
 This function expect a collection name and then a query if needed, it will return all the data on the collection.
@@ -247,36 +300,51 @@ const getStrictAdminList = async () => {
 };
 ```
 
-###### `pagination`
+#### `getPagination`
 
-Pagination is an optional object and `undefined` by default, and there is some utils attributes:
+This function expect a collection name with an optional dataCallback (a transformer function that expects the `QueryDocumentSnapshot<DocumentData, DocumentData>`), and then a query if needed, it will return all the data on the collection.
 
-| Attribute | Structure |
-| :-------- | --------: |
-| `limit`   | `number` - the limit of the data that you need. |
-| `page`    | `number` (optional) - the exact page that you are looking for. |
-| `target`  | `"next"` or `"previous"` (optional) - asks for next or previous page, based on current page. |
-| `targetDocument`* | `QueryDocumentSnapshot<DocumentData>` (optional) - the target document that you must have in the list. |
-| `firstItem`* | `ReadonlyArray<QueryDocumentSnapshot<DocumentData>>` (option) -  a list of all pages first items elements. |
+##### Basic Usage (`getPagination`)
 
-***Note:*** * *means that the attribute is mostly for internal use, but is ok if you find a nice tricky to use it by your own, or maybe improve the code xD.*
+`src/get-activities.ts`
 
-###### `conditions`
+```ts
+import { getPagination } from "burnbase/firestore";
 
-Conditions is an optional list and `undefined` by default, and it's structure is basically based on an array with 3 position:
+const getActivities = async () => {
+  const {
+    data, // page data
+    page, // current page (number)
+    next, // handler function to ask the next page
+    previous, // handler function to ask the previous page
+  } = await getPagination("activities")();
 
-`[<field-name>, <operator>, <value>]`
+  ...
+};
+```
 
-Where:
+##### Advanced Usage (`getPagination`)
 
-- `<field-name>`: is a `string` that represents the attribute on document;
-- `<operator>`: is a `WhereFilterOp` that represents the operation properly;
-- `<value>`: is an `unknown` value, that represents the matching value that you want.
+`src/get-activities.ts`
 
-Ex.1: Checking if the role is equal to `admin`.
- `['role', '==', 'admin']`
+```ts
+import { getPagination } from "burnbase/firestore";
 
-Ex.2: Checking if the position represents the podium, that can be 1, 2 oe 3.
- `['position', 'in', [1, 2, 3]]`
+const getActiveActivities = async (defaultPage: number, pageLimit: number) => {
+  const {
+    data, // page data
+    page, // current page (number)
+    next, // handler function to ask the next page
+    previous, // handler function to ask the previous page
+  } = await getPagination("activities")({
+    pagination: {
+      limit: pageLimit,
+      page: defaultPage
+    },
+    conditions: [["active", "==", true]],
+    ordinateBy: [{ label: "updatedAt", orderDirection: "asc" }],
+  });
 
-And then after you understand how conditions works, you can combine them into a list of conditions.
+  ...
+};
+```
