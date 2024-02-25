@@ -255,6 +255,37 @@ Where:
 - `label`: is a required `string` that presents the field to sort;
 - `orderDirection`: is an optional field that by default it's `'asc'`, and you can change to `'desc'`.
 
+#### `getCollection`
+
+This function expect a collection name and a query if needed, it will return a list of the data on the collection, with the respective `uid`.
+
+##### Basic Usage (`getCollection`)
+
+`src/get-clients.ts`
+
+```ts
+import { getCollection } from "burnbase/firestore";
+
+const getClients = async () => {
+  await getCollection<Client>("users");
+};
+```
+
+##### Advanced Usage (`getCollection`)
+
+`src/get-clients.ts`
+
+```ts
+import { getCollection } from "burnbase/firestore";
+
+const getActiveClients = async () => {
+  await getCollection<Client>("clients", {
+    conditions: [["active", "==", true]],
+    ordinateBy: [{ label: "createdAt" }],
+  });
+};
+```
+
 #### `getAllData`
 
 This function expect a collection name and then a query if needed, it will return all the data on the collection.
