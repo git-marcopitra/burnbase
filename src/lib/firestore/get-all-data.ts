@@ -1,6 +1,7 @@
 import { onSnapshot, query } from "firebase/firestore";
-import { getCollectionRef, mapQueryParams } from "./firestore.utils";
-import { IQueryParams } from "./firestore.protocol";
+import { mapQueryParams } from "./firestore.utils";
+import type { IQueryParams } from "./firestore.protocol";
+import getCollectionRef from "./get-collection-ref";
 
 const getAllData =
   <T>(collectionName: string) =>

@@ -1,6 +1,7 @@
 import { onSnapshot, query } from "firebase/firestore";
-import { getCollectionRef, mapQueryParams } from "./firestore.utils";
-import { TPageGetter } from "./firestore.protocol";
+import { mapQueryParams } from "./firestore.utils";
+import type { TPageGetter } from "./firestore.protocol";
+import getCollectionRef from "./get-collection-ref";
 
 const getPagination: TPageGetter =
   (collectionName, dataCallback) => (queryParams) =>

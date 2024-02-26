@@ -3,3 +3,4 @@ export { default as loginWithEmailAndPassword } from "./login-with-email-and-pas
 export { default as resetPassword } from "./reset-password";
 export { default as createUser } from "./create-user";
 export { default as logout } from "./logout";
+export type * from "./auth.utils";

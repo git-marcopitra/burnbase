@@ -1,6 +1,6 @@
 import { getStorage } from "firebase/storage";
 import { app } from "../app/app.utils";
-import { TGetPathStorage } from "./storage.protocol";
+import type { TGetPathStorage } from "./storage.protocol";
 
 export const bucket = getStorage(app);
 

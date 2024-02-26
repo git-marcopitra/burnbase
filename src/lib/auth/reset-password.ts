@@ -1,6 +1,7 @@
-import { User, updatePassword } from "firebase/auth";
+import { updatePassword } from "firebase/auth";
+import type { TResetPassword } from "./auth.protocol";
 
-const resetPassword = (user: User, newPassword: string) =>
+const resetPassword: TResetPassword = (user, newPassword) =>
   updatePassword(user, newPassword);
 
 export default resetPassword;

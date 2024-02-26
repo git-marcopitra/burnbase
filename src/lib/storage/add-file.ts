@@ -1,23 +1,14 @@
 import unikey from "unikey";
 
-import {
-  UploadMetadata,
-  getDownloadURL,
-  ref,
-  uploadBytesResumable,
-} from "firebase/storage";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { bucket } from "./storage.utils";
+import type { TAddFile } from "./storage.protocol";
 
-const addFile = (
-  file: File,
-  path: string,
-  options?: { metadata?: UploadMetadata; prefix?: string; suffix?: string }
-): Promise<string> =>
+const addFile: TAddFile = (file, path, options) =>
   new Promise((resolve, reject) => {
-    const storageRef = ref(
-      bucket,
-      `${path}/${options?.prefix ?? ""}${unikey()}${options?.suffix ?? ""}`
-    );
+    const prefix = options?.prefix ?? "";
+    const suffix = options?.suffix ?? "";
+    const storageRef = ref(bucket, `${path}/${prefix}${unikey()}${suffix}`);
 
     const uploadFile = uploadBytesResumable(
       storageRef,

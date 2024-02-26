@@ -3,14 +3,12 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "./auth.utils";
 import { getAllData } from "../firestore";
 import { TCondition } from "../firestore/firestore.protocol";
+import { TLoginWithEmailAndPassword } from "./auth.protocol";
 
-const loginWithEmailAndPassword = async (
-  email: string,
-  password: string,
-  options?: {
-    firestoreCollectionName: string;
-    firestoreCondition?: ReadonlyArray<TCondition>;
-  }
+const loginWithEmailAndPassword: TLoginWithEmailAndPassword = async (
+  email,
+  password,
+  options
 ) => {
   const user = await signInWithEmailAndPassword(auth, email, password).catch(
     () => {

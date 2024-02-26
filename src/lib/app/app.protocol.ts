@@ -1,3 +1,5 @@
+import type { FirebaseApp } from "firebase/app";
+
 export interface IInitArgs {
   appId: string;
   apiKey: string;
@@ -7,3 +9,5 @@ export interface IInitArgs {
   storageBucket?: string;
   messagingSenderId?: string;
 }
+
+export type TInit = (args: IInitArgs) => FirebaseApp;

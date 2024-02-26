@@ -4,21 +4,14 @@ import {
   getAuth,
   signOut,
 } from "firebase/auth";
-import { setDocument } from "../firestore/firestore.utils";
+import { setDocument } from "../firestore";
 import { initializeApp } from "firebase/app";
 
 import { auth } from "./auth.utils";
 import { app } from "../app/app.utils";
+import { TCreateUser } from "./auth.protocol";
 
-const createUser = async <T extends unknown>(
-  email: string,
-  password: string,
-  options?: {
-    userInfo?: T;
-    hasInstance?: boolean;
-    userCollectionName?: string;
-  }
-): Promise<UserCredential> => {
+const createUser: TCreateUser = async (email, password, options) => {
   if (!options) return createUserWithEmailAndPassword(auth, email, password);
 
   if (!options.hasInstance)

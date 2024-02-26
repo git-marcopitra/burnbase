@@ -1,13 +1,17 @@
 {
   "name": "burnbase",
-  "version": "0.1.7-alpha.0",
+  "version": "0.2.0-alpha.0",
   "description": "",
   "types": "./dist/index.d.ts",
   "exports": {
     "./app": "./dist/app/index.js",
+    "./app/utils": "./dist/app/app.utils.js",
     "./auth": "./dist/auth/index.js",
+    "./auth/utils": "./dist/auth/auth.utils.js",
     "./firestore": "./dist/firestore/index.js",
-    "./storage": "./dist/storage/index.js"
+    "./firestore/utils": "./dist/firestore/firestore.utils.js",
+    "./storage": "./dist/storage/index.js",
+    "./storage/utils": "./dist/storage/storage.utils.js"
   },
   "typesVersions": {
     "*": {

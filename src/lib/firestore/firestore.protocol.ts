@@ -1,6 +1,4 @@
-export type TGenericCollection<T> = Promise<ReadonlyArray<T>>;
-
-import {
+import type {
   CollectionReference,
   DocumentData,
   DocumentReference,
@@ -16,6 +14,8 @@ import {
   WhereFilterOp,
   WithFieldValue,
 } from "firebase/firestore";
+
+export type TGenericCollection<T> = Promise<ReadonlyArray<T>>;
 
 export type TCondition = [string, WhereFilterOp, unknown];
 
@@ -52,9 +52,8 @@ export type TGetCollectionRef = (
 
 export type TGetCollectionSize = (
   collectionName: string,
-  callback: (number: number) => void,
   queryParams?: IQueryParams
-) => Unsubscribe;
+) => Promise<number>;
 
 export type TGetDocumentRef = (
   collectionName: string,
@@ -83,8 +82,7 @@ export type TOnSnapshot<T> = (queryParams?: IQueryParams) => Promise<T>;
 
 export type TPageGetter = <T>(
   collectionName: string,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  dataCallback?: (doc: DocumentData) => Record<string, any>
+  dataCallback?: (doc: DocumentData) => Record<string, unknown>
 ) => (
   queryParams?: IQueryParams
 ) => Promise<IResponse<ReadonlyArray<T | unknown>>>;
@@ -99,5 +97,3 @@ export type TAddDocument = <T = unknown>(
   collectionName: string,
   docData: WithFieldValue<T>
 ) => Promise<DocumentReference<unknown>>;
-
-export type TDeleteObject = (urlPhoto: string) => Promise<void>;

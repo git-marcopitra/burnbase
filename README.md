@@ -81,7 +81,7 @@ For Firebase Auth, we have the following functions on `burnbase/auth`:
 
 This function returns the `currentUser` as Firebase **User**.
 
-`src/util.ts`
+`./get-current-user.ts`
 
 ```ts
 import { getLoggedInUser } from 'burnbase/auth';
@@ -99,11 +99,11 @@ export const getCurrentUser = async () => {
 
 This function returns the `userCredentialInfo` as Firebase **UserCredential**, expecting 2-3 params.
 
-##### Basic Usage (`loginWithEmailAndPassword`)
+##### Usage (`loginWithEmailAndPassword`)
 
 Passing only the email and password, you can login with an existing account on Firebase auth.
 
-`src/login.ts`
+`./login.ts`
 
 ```ts
 import { loginWithEmailAndPassword } from 'burnbase/auth';
@@ -121,7 +121,7 @@ export const login = async (email: string, password: string) => {
 
 Passing options after passing the email and password, you can login with an existing account on Firebase auth, and verify if this account exists on `firestoreCollectionName` in options, and if you want you can add many more conditions to the `firestoreCondition` list.
 
-`src/login.ts`
+`./login.ts`
 
 ```ts
 import { loginWithEmailAndPassword } from 'burnbase/auth';
@@ -161,7 +161,7 @@ const login = async (email: string, password: string) => {
 
 This function will update the password in your Firebase Auth, expecting an Firebase **User** and a new `string` password
 
-`src/renew-password.ts`
+`./renew-password.ts`
 
 ```ts
 import { resetPassword } from "burnbase/auth";
@@ -176,7 +176,7 @@ const renewPassword = async (user: User, newPassword) => {
 
 This function will kill the current user session.
 
-`src/logout.ts`
+`./logout.ts`
 
 ```ts
 import { logout } from "burnbase/auth";
@@ -255,25 +255,72 @@ Where:
 - `label`: is a required `string` that presents the field to sort;
 - `orderDirection`: is an optional field that by default it's `'asc'`, and you can change to `'desc'`.
 
+#### `getCollectionRef`
+
+This function expects a collection name, it will return a `CollectionReference<DocumentData>` of the collection.
+
+##### Usage (`getCollectionRef`)
+
+`./get-admin-ref.ts`
+
+```ts
+import { getCollectionRef } from "burnbase/firestore";
+
+const getAdminRef = async () => {
+  await getCollectionRef("admin");
+};
+```
+
+#### `getCollectionSize`
+
+This function expects a collection name and a query if needed, it will return the size of the collection
+
+##### Usage (`getCollectionSize`)
+
+`./get-admin-size.ts`
+
+```ts
+import { getCollectionSize } from "burnbase/firestore";
+
+const getAdminRef = async () => {
+  await getCollectionSize("admin");
+};
+```
+
+##### Advanced Usage (`getCollectionSize`)
+
+`./get-admin-size.ts`
+
+```ts
+import { getCollectionSize } from "burnbase/firestore";
+
+const getActivesAdminsSize = async () => {
+  await getCollectionSize("admin", {
+    conditions: [["active", "==", true]],
+    ordinateBy: [{ label: "createdAt" }],
+  });
+};
+```
+
 #### `getCollection`
 
-This function expect a collection name and a query if needed, it will return a list of the data on the collection, with the respective `uid`.
+This function expects a collection name and a query if needed, it will return a list of the data on the collection, with the respective `uid`.
 
-##### Basic Usage (`getCollection`)
+##### Usage (`getCollection`)
 
-`src/get-clients.ts`
+`./get-clients.ts`
 
 ```ts
 import { getCollection } from "burnbase/firestore";
 
 const getClients = async () => {
-  await getCollection<Client>("users");
+  await getCollection<Client>("clients");
 };
 ```
 
 ##### Advanced Usage (`getCollection`)
 
-`src/get-clients.ts`
+`./get-clients.ts`
 
 ```ts
 import { getCollection } from "burnbase/firestore";
@@ -288,11 +335,11 @@ const getActiveClients = async () => {
 
 #### `getAllData`
 
-This function expect a collection name and then a query if needed, it will return all the data on the collection.
+This function expects a collection name and then a query if needed, it will return all the data on the collection.
 
-##### Basic Usage (`getAllData`)
+##### Usage (`getAllData`)
 
-`src/get-users.ts`
+`./get-users.ts`
 
 ```ts
 import { getAllData } from "burnbase/firestore";
@@ -304,7 +351,7 @@ const getUsers = async () => {
 
 ##### Advanced Usage (`getAllData`)
 
-`src/get-admins-sorted.ts`
+`./get-admins-sorted.ts`
 
 ```ts
 import { getAllData } from "burnbase/firestore";
@@ -317,7 +364,7 @@ const getAdminsSorted = async () => {
 };
 ```
 
-`src/get-strict-admin-list.ts`
+`./get-strict-admin-list.ts`
 
 ```ts
 import { getAllData } from "burnbase/firestore";
@@ -333,11 +380,11 @@ const getStrictAdminList = async () => {
 
 #### `getPagination`
 
-This function expect a collection name with an optional dataCallback (a transformer function that expects the `QueryDocumentSnapshot<DocumentData, DocumentData>`), and then a query if needed, it will return all the data on the collection.
+This function expects a collection name with an optional dataCallback (a transformer function that expects the `QueryDocumentSnapshot<DocumentData, DocumentData>`), and then a query if needed, it will return all the data on the collection.
 
-##### Basic Usage (`getPagination`)
+##### Usage (`getPagination`)
 
-`src/get-activities.ts`
+`./get-activities.ts`
 
 ```ts
 import { getPagination } from "burnbase/firestore";
@@ -356,7 +403,7 @@ const getActivities = async () => {
 
 ##### Advanced Usage (`getPagination`)
 
-`src/get-activities.ts`
+`./get-activities.ts`
 
 ```ts
 import { getPagination } from "burnbase/firestore";
@@ -364,7 +411,7 @@ import { getPagination } from "burnbase/firestore";
 const getActiveActivities = async (defaultPage: number, pageLimit: number) => {
   const {
     data, // page data
-    page, // current page (number)
+    page, // current page
     next, // handler function to ask the next page
     previous, // handler function to ask the previous page
   } = await getPagination("activities")({
@@ -377,5 +424,151 @@ const getActiveActivities = async (defaultPage: number, pageLimit: number) => {
   });
 
   ...
+};
+```
+
+#### `getDocumentRef`
+
+This function expects a collection name and the docId, it will return a `DocumentReference<DocumentData>` of the collection.
+
+##### Usage (`getDocumentRef`)
+
+`./get-admin-ref.ts`
+
+```ts
+import { getDocumentRef } from "burnbase/firestore";
+
+const getAdminRef = async (docId: string) => {
+  await getDocumentRef("admin", docId);
+};
+```
+
+#### `getDocument`
+
+This function expects a collection name and the docId, it will return the data of the document.
+
+##### Usage (`getDocument`)
+
+`./get-admin.ts`
+
+```ts
+import { getDocument } from "burnbase/firestore";
+
+const getAdmin = async (docId: string) => {
+  await getDocument("admin", docId);
+};
+```
+
+#### `setDocument`
+
+This function expects a collection name, a docId, and the data. It will create a new document with in the docId with this data.
+
+##### Usage (`setDocument`)
+
+`./set-admin.ts`
+
+```ts
+import { setDocument } from "burnbase/firestore";
+
+const setAdmin = async (docId: string, data: Admin) => {
+  await setDocument("admin", docId, data);
+};
+```
+
+#### `addDocument`
+
+This function expects a collection name, and the data. It will create a new document in with a random docId with this data.
+
+##### Usage (`addDocument`)
+
+`./add-admin.ts`
+
+```ts
+import { addDocument } from "burnbase/firestore";
+
+const addAdmin = async (data: Admin) => {
+  await addDocument("admin", data);
+};
+```
+
+#### `updateDocument`
+
+This function expects a collection name, a docId, and the data. It will update the data in docId.
+
+_Note:_ The data can be only the field that you want to update
+
+##### Usage (`updateDocument`)
+
+`./update-admin.ts`
+
+```ts
+import { updateDocument } from "burnbase/firestore";
+
+const updateAdmin = async (docId: string, data: Partial<Admin>) => {
+  await updateDocument("admin", docId, data);
+};
+```
+
+### Storage
+
+For Firebase Storage, we have the following functions on `burnbase/storage`:
+
+- `addFile`;
+- `deleteFile`.
+
+#### `addFile`
+
+This function expects a file, a path, and the options if needed. It will save the File inside the path, and will return the download URL.
+
+##### Usage (`addFile`)
+
+`./add-image.ts`
+
+```ts
+import { addFile } from "burnbase/storage";
+
+const addImage = async (image: File) => {
+  const link = await addFile(image, "pictures");
+
+  ...
+};
+```
+
+##### Advanced Usage (`addFile`)
+
+`./add-profile-image.ts`
+
+```ts
+import { addFile } from "burnbase/storage";
+
+const addProfileImage = async (image: File) => {
+  const link = await addFile(image, "pictures", {
+    prefix: 'profile',
+    suffix: 'image',
+    metadata: { // You can find more usage on the typing
+      customMetadata: {
+        name: 'profile-image',
+        createdAt: Date.now()
+      }
+    }
+  });
+
+  ...
+};
+```
+
+#### `deleteFile`
+
+This function expects a storage url. It will delete the file.
+
+##### Usage (`deleteFile`)
+
+`./delete-image.ts`
+
+```ts
+import { deleteFile } from "burnbase/storage";
+
+const deleteImage = async (url: string) => {
+  await deleteFile(url);
 };
 ```

@@ -1,8 +1,9 @@
 import { onSnapshot, query } from "firebase/firestore";
 
-import { getCollectionRef, mapQueryParams } from "./firestore.utils";
+import { mapQueryParams } from "./firestore.utils";
 
-import { IQueryParams, TGenericCollection } from "./firestore.protocol";
+import type { IQueryParams, TGenericCollection } from "./firestore.protocol";
+import getCollectionRef from "./get-collection-ref";
 
 const getGenericCollection = <T>(
   collectionName: string,
@@ -17,7 +18,7 @@ const getGenericCollection = <T>(
         : genericCollectionRef,
       (snapshot) => {
         const data: Array<T> = [];
-        
+
         snapshot.forEach((doc) =>
           data.push(
             Object.defineProperty(doc.data(), "uid", { value: doc.id }) as T
