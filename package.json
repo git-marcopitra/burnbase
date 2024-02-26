@@ -1,6 +1,6 @@
 {
   "name": "burnbase",
-  "version": "0.2.0-alpha.1",
+  "version": "0.2.0-alpha.2",
   "description": "",
   "types": "./dist/index.d.ts",
   "exports": {
@@ -45,6 +45,8 @@
     "/dist",
     "README.md"
   ],
+  "author": "Marco Pitra <git-marcopitra@github.com> (https://github.com/git-marcopitra/)",
+  "repository": "https://github.com/git-marcopitra/burnbase",
   "scripts": {
     "dev": "tsc -w",
     "build": "rimraf dist && tsc",
@@ -52,8 +54,13 @@
     "publish:beta": "yarn build && npm publish --tag beta",
     "publish:latest": "yarn build && npm publish"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "firebase",
+    "wrapper",
+    "utils",
+    "pagination",
+    "files storage"
+  ],
   "license": "ISC",
   "devDependencies": {
     "rimraf": "^5.0.5",
