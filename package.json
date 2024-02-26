@@ -18,14 +18,26 @@
       "app": [
         "./dist/app/index.d.ts"
       ],
+      "app/utils": [
+        "./dist/app/app.utils.d.ts"
+      ],
       "auth": [
         "./dist/auth/index.d.ts"
+      ],
+      "auth/utils": [
+        "./dist/auth/auth.utils.d.ts"
       ],
       "firestore": [
         "./dist/firestore/index.d.ts"
       ],
+      "firestore/utils": [
+        "./dist/firestore/firestore.utils.d.ts"
+      ],
       "storage": [
         "./dist/storage/index.d.ts"
+      ],
+      "storage/utils": [
+        "./dist/storage/storage.utils.d.ts"
       ]
     }
   },
