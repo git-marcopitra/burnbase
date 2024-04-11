@@ -1,11 +1,11 @@
 import { onSnapshot, query } from "firebase/firestore";
 import { mapQueryParams } from "./firestore.utils";
-import type { IQueryParams } from "./firestore.protocol";
+import type { IQueryParams, WithUid } from "./firestore.protocol";
 import getCollectionRef from "./get-collection-ref";
 
 const getAllData =
   <T>(collectionName: string) =>
-  (queryParams?: IQueryParams): Promise<ReadonlyArray<T>> =>
+  (queryParams?: IQueryParams): Promise<ReadonlyArray<WithUid<T>>> =>
     new Promise((resolve, rejected) =>
       onSnapshot(
         !queryParams
@@ -15,7 +15,9 @@ const getAllData =
               ...mapQueryParams(queryParams)
             ),
         (snapshot) => {
-          const data = snapshot.docs.map((doc) => doc.data() as T);
+          const data = snapshot.docs.map(
+            (doc) => ({ uid: doc.id, ...doc.data() } as WithUid<T>)
+          );
           resolve(data);
         },
         (error) => rejected(error)

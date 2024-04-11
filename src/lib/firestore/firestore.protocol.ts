@@ -36,6 +36,8 @@ export interface IQueryParams {
   conditions?: ReadonlyArray<TCondition>;
 }
 
+export type WithUid<T> = T & { uid: string };
+
 export type TMapQueryParams = (
   args: IQueryParams
 ) => ReadonlyArray<
