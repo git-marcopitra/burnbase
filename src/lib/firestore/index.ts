@@ -1,4 +1,5 @@
 export { default as addDocument } from "./add-document";
+export { default as deleteDocument } from "./delete-document";
 export { default as getCollectionRef } from "./get-collection-ref";
 export { default as getCollectionSize } from "./get-collection-size";
 export { default as getDocumentRef } from "./get-document-ref";
