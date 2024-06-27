@@ -1,6 +1,6 @@
 {
   "name": "burnbase",
-  "version": "0.2.1-alpha.0",
+  "version": "0.3.0-alpha.0",
   "description": "",
   "types": "./dist/index.d.ts",
   "exports": {
