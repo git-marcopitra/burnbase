@@ -87,7 +87,7 @@ export type TPageGetter = <T = unknown>(
   dataCallback?: (doc: DocumentData) => Record<string, T>
 ) => (
   queryParams?: IQueryParams
-) => Promise<IResponse<ReadonlyArray<T>>>;
+) => Promise<IResponse<ReadonlyArray<unknown>>>;
 
 export type TUpdateDocument = <T = unknown>(
   collectionName: string,
