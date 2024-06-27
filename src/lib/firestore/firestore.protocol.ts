@@ -82,12 +82,12 @@ export interface IResponse<T> {
 
 export type TOnSnapshot<T> = (queryParams?: IQueryParams) => Promise<T>;
 
-export type TPageGetter = <T = unknown>(
+export type TPageGetter = <T>(
   collectionName: string,
-  dataCallback?: (doc: DocumentData) => Record<string, T>
+  dataCallback?: (doc: DocumentData) => Record<string, unknown>
 ) => (
   queryParams?: IQueryParams
-) => Promise<IResponse<ReadonlyArray<unknown>>>;
+) => Promise<IResponse<ReadonlyArray<T | unknown>>>;
 
 export type TUpdateDocument = <T = unknown>(
   collectionName: string,
@@ -98,9 +98,9 @@ export type TUpdateDocument = <T = unknown>(
 export type TAddDocument = <T = unknown>(
   collectionName: string,
   docData: WithFieldValue<T>
-) => Promise<DocumentReference<T>>;
+) => Promise<DocumentReference<WithFieldValue<Partial<T>>>>;
 
 export type TDeleteDocument = (
   collectionName: string,
-  docUid: string,
+  docUid: string
 ) => Promise<void>;
