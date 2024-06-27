@@ -198,7 +198,7 @@ For Firebase Firestore, we have the following functions on `burnbase/firestore`:
 - `setDocument`;
 - `updateDocument`;
 - `addDocument`;
-- `deleteFile`;
+- `deleteDocument`;
 - `getCollectionSize`;
 - `mapQueryParams`.
 
@@ -488,6 +488,22 @@ import { addDocument } from "burnbase/firestore";
 
 const addAdmin = async (data: Admin) => {
   await addDocument("admin", data);
+};
+```
+
+#### `deleteDocument`
+
+This function expects a collection name, and the docId. It will delete the document in this docId. 
+
+##### Usage (`deleteDocument`)
+
+`./delete-user.ts`
+
+```ts
+import { deleteDocument } from "burnbase/firestore";
+
+const deleteUser = async (data: User) => {
+  await deleteDocument("admin", "NlzIlLHFMcbmtK8ORodq9TvmDFR2");
 };
 ```
 
